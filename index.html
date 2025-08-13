@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fun time </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .card {
+            width: 200px;
+            height: 250px;
+            perspective: 1000px;
+        }
+
+        .inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .front, 
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .back {
+            background: #f8f8f8;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .back a {
+            color: #d6249f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+
+        #secretImage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw; 
+            height: 100vh;
+            object-fit: cover; 
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <h1>RAND KA DUKAN</h1>
+    <div class="container">
+        <div class="card">
+            <div class="inner">
+                <div class="front">
+                    <img src="IMAGE OR AUDIO STOCK/IMAGE 1.jpg" alt="Image 1">
+                </div>
+                <div class="back">
+                    NAME: GAUTAM<br>
+                    PRICE: 49rs 1 hour <br>
+                    CONTACT: <br>
+                    <a href="https://instagram.com/gautamsoni_45" target="_blank">@gautamsoni_45</a>
+                </div>
+            </div>
+            <button onclick="playAudio(0)">Play Audio 1</button>
+        </div>
+
+        <div class="card">
+            <div class="inner">
+                <div class="front">
+                    <img src="IMAGE OR AUDIO STOCK/IMAGE2.jpg" alt="Image 2">
+                </div>
+                <div class="back">
+                    NAME: SAHIL <br>
+                    PRICE: 99rs 1 hour <br>
+                    CONTACT: <br>
+                    <a href="https://instagram.com/ronitttt_07" target="_blank">@ronitttt_07</a>
+                </div>
+            </div>
+            <button onclick="playAudio(1)">Play Audio 2</button>
+        </div>
+
+        <div class="card">
+            <div class="inner">
+                <div class="front">
+                    <img src="IMAGE OR AUDIO STOCK/IMAGE3.jpg" alt="IMAGE 3">
+                </div>
+                <div class="back">
+                    NAME: NITIN <br>
+                    PRICE: 120rs 1 hour<br>
+                    CONTACT: <br>
+                    <a href="https://instagram.com/im_nitinsoni" target="_blank">@im_nitinsoni</a>
+                </div>
+            </div>
+            <button onclick="playAudio(2)">Play Audio 3</button>
+        </div>
+    </div>
+
+    <audio id="audio0" src="IMAGE OR AUDIO STOCK/AUDIO1.mp3"></audio>
+    <audio id="audio1" src="IMAGE OR AUDIO STOCK/AUDIO2.mp3"></audio>
+    <audio id="audio2" src="IMAGE OR AUDIO STOCK/AUDIO3.mp3"></audio>
+
+    <img id="secretImage" src="IMAGE OR AUDIO STOCK/SECRET.jpg" alt="Secret">
+
+    <script>
+        let flipCount = 0;
+        let flipTimeout;
+
+        document.querySelectorAll('.inner').forEach(inner => {
+            inner.addEventListener('click', () => {
+                inner.classList.toggle('flipped');
+                flipCount++;
+
+                clearTimeout(flipTimeout);
+                flipTimeout = setTimeout(() => {
+                    flipCount = 0;
+                }, 2000);
+
+                if (flipCount >= 5) {
+                    showSecretImage();
+                    flipCount = 0;
+                }
+            });
+        });
+
+        function playAudio(index) {
+            const audio = document.getElementById('audio' + index);
+            if (audio.paused) {
+                document.querySelectorAll('audio').forEach(a => a.pause());
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+
+        function showSecretImage() {
+            const img = document.getElementById('secretImage');
+            img.style.display = 'block';
+            setTimeout(() => {
+                img.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
